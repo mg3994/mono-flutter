@@ -1,7 +1,7 @@
 ---
 name: agentic-flutter-delivery-workflow
 description: Complete end-to-end delivery protocol for AI coding agents operating in a Flutter Monorepo using Pub Workspaces.
-version: 1.5.0
+version: 1.7.0
 tags: [workflow, delivery, task-routing, dependency-order, continuous-validation, completion-gates]
 ---
 
@@ -30,6 +30,6 @@ Use this skill as the default operating procedure for an AI coding agent in this
 ## 3. Continuous Validation & Completion Gate
 
 - **Format**: Run `dart format .` after every edit.
-- **Analyze**: Run `dart analyze` to ensure zero warnings or errors.
+- **Analyze**: Run `dart analyze` to ensure zero warnings or errors under `kaisel_lint`.
 - **Test**: Execute focused tests first, then package-wide test suites (`flutter test`).
 - **Forbidden Imports Check**: Ensure `domain` has no Flutter/vendor imports, and `features` have no `infrastructure` imports.
