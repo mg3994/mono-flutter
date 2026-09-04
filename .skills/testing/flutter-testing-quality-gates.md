@@ -1,7 +1,7 @@
 ---
 name: flutter-testing-quality-gates
 description: Boundary testing discipline, testing strategies, quality gates, and definition of done for AI agents.
-version: 2.1.0
+version: 2.3.0
 tags: [testing, quality-gates, definition-of-done, unit-tests, widget-tests, smoke-tests]
 ---
 

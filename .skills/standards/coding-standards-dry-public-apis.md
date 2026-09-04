@@ -1,7 +1,7 @@
 ---
 name: coding-standards-dry-public-apis
 description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, performance tear-offs, error handling resilience, internationalization, and accessibility standards.
-version: 2.2.0
+version: 2.3.0
 tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, performance, tear-offs, error-resilience, i18n]
 ---
 
