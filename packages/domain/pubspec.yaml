@@ -1,0 +1,7 @@
+name: domain
+resolution: workspace
+environment:
+  sdk: '^3.11.0'
+
+dependencies:
+  test: '^1.24.0'

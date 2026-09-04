@@ -1,0 +1,9 @@
+name: workspace_root
+environment:
+  sdk: '^3.11.0'
+
+workspace:
+  - apps/main_app
+  - packages/domain
+  - packages/infrastructure
+  - packages/core_ui
