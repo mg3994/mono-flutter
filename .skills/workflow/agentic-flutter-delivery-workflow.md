@@ -1,7 +1,7 @@
 ---
 name: agentic-flutter-delivery-workflow
 description: Complete end-to-end delivery protocol for AI coding agents operating in a Flutter Monorepo using Pub Workspaces.
-version: 2.0.0
+version: 2.1.0
 tags: [workflow, delivery, task-routing, dependency-order, continuous-validation, completion-gates]
 ---
 

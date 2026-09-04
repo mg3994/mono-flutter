@@ -1,7 +1,7 @@
 ---
 name: agentic-ai-skills-registry
 description: Master skill registry and frontmatter specs for AI coding agents operating across any codebase or domain.
-version: 2.0.0
+version: 2.1.0
 tags: [agentic-ai, skills, workflows, clean-architecture, flutter, monorepo, kaisel, accessibility, performance, tear-offs]
 ---
 
