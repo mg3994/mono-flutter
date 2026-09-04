@@ -1,30 +1,35 @@
 ---
 name: agentic-flutter-delivery-workflow
-description: Standard operating procedure for end-to-end task routing, implementation dependency order, continuous validation, and completion gates.
-version: 1.0.0
-tags: [workflow, routing, dependency-order, validation, completion-gate]
+description: Complete end-to-end delivery protocol for AI coding agents operating in a Flutter Monorepo using Pub Workspaces.
+version: 1.2.0
+tags: [workflow, delivery, task-routing, dependency-order, continuous-validation, completion-gates]
 ---
 
 # Skill: Agentic Flutter Delivery Workflow
 
-## Task Routing Protocol
-1. Identify the smallest concrete anchor: a failing test, file, symbol, or requested user-visible behavior.
-2. Read the owning package barrel (`lib/<package>.dart`), its `pubspec.yaml`, and nearest test file.
-3. Formulate one local hypothesis and one cheap check (e.g. running a focused test or analyzer) to validate/disprove it.
-4. Trace cross-layer requests strictly along canonical flow:
-   `UI -> Feature Signals/Controller -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO/Row Mapper -> Domain Result -> Feature State -> UI`
-5. Select the smallest package and layer that owns the change. Do not widen changes into adjacent packages unless required.
+Use this skill as the default operating procedure for an AI coding agent in this monorepo.
 
-## Implementation Dependency Order
-1. **Domain Contract & Entity**: Define or update pure Dart interfaces and value objects in `packages/domain` (or `<feature>_domain`).
-2. **Infrastructure Adapter & DTO Mapper**: Implement network/storage adapters in `packages/infrastructure` (or `<feature>_data`), converting raw DTOs into domain types.
-3. **Feature Orchestration & Signal State**: Implement presentation controllers using `bloc_signals_flutter` in feature presentation packages.
-4. **Presentation Widgets**: Build focused Flutter widgets that subscribe to signals and emit events.
-5. **Composition Root DI Registration**: Wire concrete implementations in `apps/main_app` using `kaisel` dependency injection.
-6. **Package Barrel & Public API**: Export only intentional contracts and entities from package barrels (`lib/<package_name>.dart`).
+## 1. Task Routing Protocol
 
-## Continuous Validation & Completion Gate
-- Format changed files: `dart format .`
-- Analyze affected packages: `dart analyze`
-- Execute tests: `flutter test packages/domain packages/infrastructure packages/core_ui apps/main_app`
-- Verify boundary shielding: No vendor SDKs in `domain`, no infrastructure imports in `features`.
+1. **Identify the Anchor**: Find the smallest concrete anchor—a failing test, symbol, file, or requested user behavior.
+2. **Context Inspection**: Read the barrel file (`lib/<package>.dart`), `pubspec.yaml`, and nearest test suite of the owning package.
+3. **Formulate Hypothesis**: State one local hypothesis and one cheap check (e.g. running `flutter test` on a single file or `dart analyze`) to validate or disprove it.
+4. **Trace Request Path**: For cross-layer changes, trace the request path:
+   `UI -> Feature Controller/Signals -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO Mapper -> Domain Result -> UI State -> Widget`
+5. **Layer Isolation**: Select the narrowest owning package. Do not modify adjacent packages unless strictly required by contract changes.
+
+## 2. Implementation in Dependency Order
+
+1. **Domain Contract & Entities**: Define or update pure Dart interfaces and value objects in `packages/domain` (or `<feature>_domain`).
+2. **Infrastructure Adapters**: Implement IO adapters and DTO mappers in `packages/infrastructure` (or `<feature>_data`).
+3. **Feature Orchestration**: Add signal state management in feature presentation packages.
+4. **UI Widgets**: Create thin, rendering-focused Flutter widgets.
+5. **Composition Root**: Wire concrete adapters in `apps/main_app` composition root via DI (`kaisel`).
+6. **Public API Barrel**: Re-export intentional public types in package barrels (`lib/<package>.dart`).
+
+## 3. Continuous Validation & Completion Gate
+
+- **Format**: Run `dart format .` after every edit.
+- **Analyze**: Run `dart analyze` to ensure zero warnings or errors.
+- **Test**: Execute focused tests first, then package-wide test suites (`flutter test`).
+- **Forbidden Imports Check**: Ensure `domain` has no Flutter/vendor imports, and `features` have no `infrastructure` imports.

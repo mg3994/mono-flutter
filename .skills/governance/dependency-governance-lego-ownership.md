@@ -1,17 +1,27 @@
 ---
 name: dependency-governance-lego-ownership
-description: Single dependency ownership, vendor isolation, shared wrappers, and graph governance.
-version: 1.0.0
-tags: [dependencies, governance, lego-ownership, monorepo, vendor-isolation]
+description: Dependency governance, single ownership rules, vendor isolation, and workspace graph management.
+version: 1.2.0
+tags: [dependencies, governance, lego-ownership, vendor-isolation, monorepo]
 ---
 
 # Skill: Dependency Governance & LEGO Ownership
 
-## Ownership Map & Enforcement Rules
-- UI & Design System: `packages/core_ui`
-- Network (Dio): `packages/infrastructure/network` (or `packages/infrastructure`)
-- Persistence (Drift): `packages/infrastructure/persistence` (or `packages/infrastructure`)
-- Auth / Firebase: `packages/infrastructure/identity` (or `packages/infrastructure`)
-- Composition Root & DI: `apps/main_app` using `kaisel`
-- Feature State: `bloc_signals_flutter` in feature presentation packages
-- No feature package may import infrastructure or vendor SDKs directly.
+Use this skill whenever adding, upgrading, or refactoring package dependencies in the workspace.
+
+## 1. Single Dependency Ownership
+
+Every third-party dependency has exactly one owner package in the monorepo:
+
+- UI & Material/Cupertino: `packages/core_ui`
+- HTTP Client (Dio): `packages/infrastructure/network` (or `packages/infrastructure`)
+- Database (Drift): `packages/infrastructure/persistence` (or `packages/infrastructure`)
+- Firebase / Auth: `packages/infrastructure/identity` (or `packages/infrastructure`)
+- State Management: `bloc_signals_flutter` in feature presentation packages
+- DI & Composition Root: `apps/main_app` using `kaisel`
+
+## 2. Enforcement Rules
+
+- Features must NEVER import vendor SDKs or infrastructure packages directly.
+- Barrel files re-export capabilities and domain types, never vendor classes.
+- All workspace members use aligned dependency constraints declared in workspace resolution.

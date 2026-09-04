@@ -1,13 +1,23 @@
 ---
 name: monorepo-data-flow-feature-boundaries
-description: Canonical request paths, feature boundary isolation, cross-feature communication, and app shell responsibilities.
-version: 1.0.0
+description: Monorepo canonical data flow, vertical feature package models, feature boundary isolation, and routing.
+version: 1.2.0
 tags: [data-flow, feature-boundaries, app-shell, routing, cross-feature]
 ---
 
 # Skill: Modular Monorepo Data Flow & Feature Boundaries
 
-## Feature Isolation
-- Features must not import presentation or data packages of other features.
-- Cross-feature transitions must route through app shell callbacks or shared domain contracts.
-- App shell (`apps/main_app`) owns startup, flavor initialization, DI wiring, and top-level routing.
+Use this skill when designing features, routing cross-feature communication, or tracing request flows.
+
+## 1. Canonical Runtime Data Flow
+
+`User Action -> Feature Signals/Controller -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO Mapper -> Domain Result -> UI State -> Widget`
+
+Assembly path:
+`apps/main_app -> Concrete Infrastructure Adapter -> Domain Contract -> Use Case -> Feature Controller -> Widget`
+
+## 2. Feature Boundaries & Routing
+
+- Features must NOT import presentation or data packages from other features.
+- Cross-feature communication must route through app shell callbacks (`apps/main_app`) or shared domain contracts in `packages/domain`.
+- App shell owns routing, startup, flavor selection, and DI registration.
