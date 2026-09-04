@@ -1,7 +1,7 @@
 ---
 name: solid-clean-architecture
 description: Clean Architecture principles, inward dependency direction rules, SOLID design, and LEGO brick swappability.
-version: 1.7.0
+version: 1.9.0
 tags: [clean-architecture, solid, dependency-direction, lego-bricks, boundary-shielding]
 ---
 
