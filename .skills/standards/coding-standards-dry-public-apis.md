@@ -1,8 +1,8 @@
 ---
 name: coding-standards-dry-public-apis
-description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, performance tear-offs, and accessibility standards.
-version: 2.1.0
-tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, performance, tear-offs]
+description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, performance tear-offs, error handling resilience, internationalization, and accessibility standards.
+version: 2.2.0
+tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, performance, tear-offs, error-resilience, i18n]
 ---
 
 # Skill: Coding Standards, DRY & Public APIs
@@ -35,7 +35,15 @@ whatever: () => _handleTap(),
 whatever: _handleTap,
 ```
 
-## 4. Universal Accessibility (A11y) Standards
+## 4. Error Handling Resilience & Boundary Translation
+
+Translate all low-level vendor errors (DioException, DriftException, FirebaseAuthException) into domain failure objects inside infrastructure adapters. Never let raw vendor exceptions leak into presentation or domain code.
+
+## 5. Internationalization (i18n) Standards
+
+User-facing presentation strings must be internationalized via `flutter_localizations` and `intl` declared in `packages/core_ui`. Never hardcode user-visible text strings directly inside presentation widgets.
+
+## 6. Universal Accessibility (A11y) Standards
 
 1. **Screen Readers & Semantics**: Wrap interactive custom controls in `Semantics` widgets with meaningful `label`, `hint`, and `button` / `enabled` state properties. Merge child semantics using `MergeSemantics` where visual components form a single action.
 2. **Touch Targets**: Ensure interactive touch targets meet the minimum 48x48 dp size (`kMinInteractiveDimension`).
