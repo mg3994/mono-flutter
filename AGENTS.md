@@ -1,7 +1,7 @@
 ---
 name: agentic-ai-skills-registry
 description: Master skill registry and frontmatter specs for AI coding agents operating across any codebase or domain.
-version: 1.0.0
+version: 1.1.0
 tags: [agentic-ai, skills, workflows, clean-architecture, flutter, monorepo]
 ---
 
@@ -9,9 +9,9 @@ tags: [agentic-ai, skills, workflows, clean-architecture, flutter, monorepo]
 
 ---
 name: agentic-flutter-delivery-workflow
-description: Standard operating procedure for end-to-end task routing, implementation dependency order, and continuous validation.
-version: 1.0.0
-tags: [workflow, routing, dependency-order, validation]
+description: Standard operating procedure for end-to-end task routing, implementation dependency order, continuous validation, and completion gates.
+version: 1.1.0
+tags: [workflow, routing, dependency-order, validation, completion-gate]
 ---
 
 ## Skill: Agentic Flutter Delivery Workflow
@@ -22,21 +22,27 @@ tags: [workflow, routing, dependency-order, validation]
 3. Formulate one local hypothesis and one cheap check (e.g. running a focused test or analyzer) to validate/disprove it.
 4. Trace cross-layer requests strictly along canonical flow:
    `UI -> Feature Signals/Controller -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO/Row Mapper -> Domain Result -> Feature State -> UI`
-5. Select the smallest package and layer that owns the change.
+5. Select the smallest package and layer that owns the change. Do not widen changes into adjacent packages unless required.
 
 ### Implement in Dependency Order
-1. Domain contract and entity in `packages/domain` (or `<feature>_domain`).
-2. Infrastructure adapter and DTO mapper in `packages/infrastructure` (or `<feature>_data`).
-3. Feature orchestration and signal state in presentation layer.
-4. Focused rendering widgets.
-5. Register concrete dependencies in composition root (`apps/main_app`).
-6. Update package barrel files only for intentional public API.
+1. **Domain Contract & Entity**: Define or update pure Dart interfaces and value objects in `packages/domain` (or `<feature>_domain`).
+2. **Infrastructure Adapter & DTO Mapper**: Implement network/storage adapters in `packages/infrastructure` (or `<feature>_data`), converting raw DTOs into domain types.
+3. **Feature Orchestration & Signal State**: Implement presentation controllers using `bloc_signals_flutter` in feature presentation packages.
+4. **Presentation Widgets**: Build focused Flutter widgets that subscribe to signals and emit events.
+5. **Composition Root DI Registration**: Wire concrete implementations in `apps/main_app` using `kaisel` dependency injection.
+6. **Package Barrel & Public API**: Export only intentional contracts and entities from package barrels (`lib/<package_name>.dart`).
+
+### Continuous Validation & Completion Gate
+- Format changed files: `dart format .`
+- Analyze affected packages: `dart analyze`
+- Execute tests: `flutter test packages/domain packages/infrastructure packages/core_ui apps/main_app`
+- Verify boundary shielding: No vendor SDKs in `domain`, no infrastructure imports in `features`.
 
 ---
 name: solid-clean-architecture
-description: Enforces inward dependency flow, SOLID principles, and strict boundary shielding.
-version: 1.0.0
-tags: [architecture, solid, clean-architecture, boundaries]
+description: Enforces inward dependency direction, SOLID design principles, boundary shielding, and swappable LEGO bricks.
+version: 1.1.0
+tags: [architecture, solid, clean-architecture, boundaries, lego-bricks]
 ---
 
 ## Skill: SOLID & Clean Architecture
@@ -49,36 +55,36 @@ tags: [architecture, solid, clean-architecture, boundaries]
 - `packages/domain` is pure Dart with zero vendor or framework imports.
 
 ### SOLID Rules
-1. **Single Responsibility**: Separate presentation, orchestration, domain policy, and infrastructure IO into dedicated layers.
-2. **Open/Closed**: Extend capabilities by introducing new adapters behind domain interfaces instead of mutating callers.
-3. **Liskov Substitution**: Adapters must strictly preserve error, nullability, and lifecycle contracts promised by domain interfaces.
-4. **Interface Segregation**: Prefer small capability interfaces (`IAuthService`, `IUserRepository`).
-5. **Dependency Inversion**: High-level code depends on domain abstractions; implementations are registered at composition root.
+1. **Single Responsibility**: Keep presentation, orchestration, domain policy, and IO in separate packages and files.
+2. **Open/Closed**: Add new adapters behind existing domain interfaces without modifying calling code.
+3. **Liskov Substitution**: Implementation adapters must preserve error, nullability, and lifecycle contracts promised by domain interfaces.
+4. **Interface Segregation**: Prefer small, focused capability interfaces (`IAuthService`, `IUserRepository`) over monolithic interfaces.
+5. **Dependency Inversion**: High-level feature code depends solely on domain contracts; concrete adapters are bound at the composition root.
 
 ---
 name: coding-standards-dry-public-apis
-description: Coding standards, package shape rules, DRY principles, and naming conventions.
-version: 1.0.0
-tags: [coding-standards, naming, dry, public-api]
+description: Package shape, file organization, DRY rules, naming conventions, and public barrel exports.
+version: 1.1.0
+tags: [coding-standards, naming, dry, public-api, package-shape]
 ---
 
 ## Skill: Coding Standards, DRY & Public APIs
 
 ### Package Shape
-- Implementation lives under `lib/src/`.
+- Internal logic lives under `lib/src/`.
 - Public API exposed through a single barrel file at `lib/<package_name>.dart`.
 - Re-export only domain contracts, entities, states, and events; hide DTOs, generated files, and vendor internals.
 
 ### Naming & Design
 - Interfaces begin with `I` (e.g., `IAuthService`).
 - Implementations end with underlying technology name (e.g., `InMemoryAuthService`, `FirebaseAuthService`).
-- Use explicit, descriptive variable names.
+- Use explicit, descriptive variable names and avoid one-letter variables outside small local loops.
 
 ---
 name: dependency-governance-lego-ownership
-description: Single dependency ownership, shared wrapper rules, and dependency graph governance.
-version: 1.0.0
-tags: [dependencies, governance, lego-ownership, monorepo]
+description: Single dependency ownership, vendor isolation, shared wrappers, and graph governance.
+version: 1.1.0
+tags: [dependencies, governance, lego-ownership, monorepo, vendor-isolation]
 ---
 
 ## Skill: Dependency Governance & LEGO Ownership
@@ -97,9 +103,9 @@ tags: [dependencies, governance, lego-ownership, monorepo]
 
 ---
 name: flutter-testing-quality-gates
-description: Boundary testing discipline, quality gates, and definition of done for AI agents.
-version: 1.0.0
-tags: [testing, quality-gates, definition-of-done, unit-tests]
+description: Boundary testing discipline across domain, infrastructure, features, and composition root.
+version: 1.1.0
+tags: [testing, quality-gates, definition-of-done, unit-tests, smoke-tests]
 ---
 
 ## Skill: Flutter Testing & Quality Gates
@@ -112,14 +118,14 @@ tags: [testing, quality-gates, definition-of-done, unit-tests]
 
 ---
 name: monorepo-data-flow-feature-boundaries
-description: Canonical request paths, feature boundary isolation, and app shell routing responsibilities.
-version: 1.0.0
-tags: [data-flow, feature-boundaries, app-shell, routing]
+description: Canonical request paths, feature boundary isolation, cross-feature communication, and app shell responsibilities.
+version: 1.1.0
+tags: [data-flow, feature-boundaries, app-shell, routing, cross-feature]
 ---
 
 ## Skill: Modular Monorepo Data Flow & Feature Boundaries
 
-### Feature Isolation
+### Feature Isolation & Cross-Feature Communication
 - Features must not import presentation or data packages of other features.
 - Cross-feature transitions must route through app shell callbacks or shared domain contracts.
 - App shell (`apps/main_app`) owns startup, flavor initialization, DI wiring, and top-level routing.
@@ -127,8 +133,8 @@ tags: [data-flow, feature-boundaries, app-shell, routing]
 ---
 name: tech-stack-integration
 description: Approved tech stack guidelines for state management, persistence, networking, and DI.
-version: 1.0.0
-tags: [tech-stack, signals, drift, dio, kaisel]
+version: 1.1.0
+tags: [tech-stack, signals, drift, dio, kaisel, firebase]
 ---
 
 ## Skill: Tech Stack Integration
