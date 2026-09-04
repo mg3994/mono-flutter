@@ -1,7 +1,7 @@
 ---
 name: agentic-flutter-delivery-workflow
 description: Complete end-to-end delivery protocol for AI coding agents operating in a Flutter Monorepo using Pub Workspaces.
-version: 1.2.0
+version: 1.4.0
 tags: [workflow, delivery, task-routing, dependency-order, continuous-validation, completion-gates]
 ---
 
@@ -22,9 +22,9 @@ Use this skill as the default operating procedure for an AI coding agent in this
 
 1. **Domain Contract & Entities**: Define or update pure Dart interfaces and value objects in `packages/domain` (or `<feature>_domain`).
 2. **Infrastructure Adapters**: Implement IO adapters and DTO mappers in `packages/infrastructure` (or `<feature>_data`).
-3. **Feature Orchestration**: Add signal state management in feature presentation packages.
+3. **Feature Orchestration**: Add signal state management using `bloc_signals_flutter` in feature presentation packages.
 4. **UI Widgets**: Create thin, rendering-focused Flutter widgets.
-5. **Composition Root**: Wire concrete adapters in `apps/main_app` composition root via DI (`kaisel`).
+5. **Composition Root**: Wire concrete adapters in `apps/main_app` composition root via DI and setup routes using `kaisel`.
 6. **Public API Barrel**: Re-export intentional public types in package barrels (`lib/<package>.dart`).
 
 ## 3. Continuous Validation & Completion Gate

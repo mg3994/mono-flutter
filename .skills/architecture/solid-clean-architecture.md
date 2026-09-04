@@ -1,7 +1,7 @@
 ---
 name: solid-clean-architecture
 description: Clean Architecture principles, inward dependency direction rules, SOLID design, and LEGO brick swappability.
-version: 1.3.0
+version: 1.4.0
 tags: [clean-architecture, solid, dependency-direction, lego-bricks, boundary-shielding]
 ---
 
@@ -18,7 +18,7 @@ The dependency graph points strictly inward:
 
 - `packages/features` depends on `packages/core_ui` and `packages/domain`.
 - `packages/domain` is pure Dart (no Flutter, Dio, Drift, or Firebase imports).
-- The composition root in `apps/main_app` is the only place where concrete infrastructure adapters are bound to domain contracts and where `kaisel` configures app routing.
+- The composition root in `apps/main_app` is the only place where concrete infrastructure is bound to domain contracts and where `kaisel` configures app routing.
 
 ## 2. SOLID Rules for Agents
 
@@ -26,9 +26,9 @@ The dependency graph points strictly inward:
 2. **Open/Closed**: Add new capability adapters behind existing domain interfaces rather than mutating callers.
 3. **Liskov Substitution**: Adapters must strictly fulfill error, nullability, and lifecycle expectations promised by domain interfaces.
 4. **Interface Segregation**: Prefer small, focused capability interfaces (`IAuthService`, `IUserRepository`).
-5. **Dependency Inversion**: High-level feature code depends on abstractions; concrete classes are injected at the composition root.
+5. **Dependency Inversion**: High-level feature code depends on abstractions; concrete classes are injected at runtime.
 
 ## 3. Boundary Shielding & LEGO Acceptance Test
 
-- **Boundary Shielding**: DTOs, Drift rows, Dio exceptions, and Firebase types must stop at the infrastructure boundary.
-- **LEGO Acceptance Test**: A package brick is swappable when replacing its adapter requires edits ONLY in that brick plus composition-root registration.
+- **Boundary Shielding**: DTOs, Drift rows, Dio exceptions, and Firebase types must stop at the infrastructure boundary. Map them to domain entities and domain failure objects before returning to domain or presentation.
+- **LEGO Acceptance Test**: A package brick is swappable when replacing its adapter requires edits ONLY in that brick plus composition-root DI registration and `kaisel` route registration in `apps/main_app`.
