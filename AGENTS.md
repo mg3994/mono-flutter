@@ -1,86 +1,42 @@
-# Skills & Guidelines for AI Coding Agents
-
-## Core Operating Philosophy
-
-This workspace operates as a modular, brick-based monorepo ("Baseplate"). AI coding agents working in this repository must operate with extreme discipline, strictly obeying clean architecture boundaries, SOLID principles, and continuous quality gates. Regardless of the feature or project scope, agents must execute tasks end-to-end using the standardized execution playbook below.
-
+---
+name: agentic-ai-skills-registry
+description: Master skill registry and frontmatter specs for AI coding agents operating across any codebase or domain.
+version: 1.0.0
+tags: [agentic-ai, skills, workflows, clean-architecture, flutter, monorepo]
 ---
 
-## AI Agent End-to-End Execution Playbook
+# Skills & Guidelines for AI Coding Agents
 
-When assigned any task—whether creating a new feature, refactoring an existing package, or fixing a bug—the AI agent must follow this 7-phase execution protocol:
-
-### Phase 1: Task Routing & Scope Anchor
-1. Identify the smallest concrete anchor: a failing test, file, symbol, or requested user-visible behavior.
-2. Read the owning package barrel (`lib/<package>.dart`), its `pubspec.yaml`, and existing test files.
-3. Formulate one local hypothesis and one cheap check (e.g. running a focused test or analyzer command) to validate or disprove it.
-4. Trace cross-layer requests strictly along the canonical flow:
-   `UI -> Feature Signals/Controller -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO/Row Mapper -> Domain Result -> Feature State -> UI`
-5. Select the smallest owning package and layer. Do not widen changes unnecessarily into adjacent packages.
-
-### Phase 2: Domain Layer (Pure Business Logic)
-1. Add or update pure Dart contracts (`interfaces`), entities, value objects, and failures in `packages/domain` (or `<feature>_domain`).
-2. Ensure domain code has zero dependencies on Flutter, Dio, Drift, Firebase, or external vendor SDKs.
-3. Write domain unit tests covering pure policy, validation rules, and success/failure results using standard `test`.
-
-### Phase 3: Infrastructure Layer (Adapters & IO)
-1. Implement concrete adapters in `packages/infrastructure` (or `<feature>_data`) behind domain interfaces.
-2. Map external DTOs, API responses, database rows, or SDK payloads explicitly to pure domain entities inside the adapter boundary.
-3. Catch all infrastructure errors (network exceptions, database failures, SDK errors) and translate them into stable domain failure types.
-4. Keep vendor types (Dio exceptions, Drift rows, Firebase user credentials) hidden inside infrastructure. Never leak vendor types to domain or UI.
-5. Write infrastructure tests using deterministic fakes or test doubles covering happy paths, retries, and failure translations.
-
-### Phase 4: Feature Presentation & Orchestration
-1. Build presentation state management using `bloc_signals_flutter` in feature packages.
-2. Keep state objects immutable and handle loading, empty, success, and error states explicitly.
-3. Keep Flutter widgets focused strictly on rendering UI and dispatching user events. Widgets must not invoke data sources, repositories, or network clients directly.
-4. Route cross-feature interactions through app shell callbacks or shared domain contracts. Features must never import another feature's data or presentation package.
-5. Write widget and signal tests covering UI rendering and state transitions with mocked domain contracts.
-
-### Phase 5: Composition Root Assembly (`apps/main_app`)
-1. Register concrete infrastructure implementations with domain contracts at the composition root using `kaisel` DI.
-2. Wire app shell routing and flavor initialization in `apps/main_app`.
-3. Add a smoke test in `apps/main_app/test/` to verify DI graph resolution and startup state.
-
-### Phase 6: Workspace Validation & Verification
-1. Run `dart format .` across all modified Dart files.
-2. Run `dart analyze` to guarantee zero static analysis issues.
-3. Run `flutter test packages/domain packages/infrastructure packages/core_ui apps/main_app` (or affected feature packages) to confirm all tests pass.
-4. Ensure no forbidden cross-package imports exist and no duplicate third-party dependencies were introduced.
-
-### Phase 7: Completion Gate & Pre-commit Check
-Before declaring completion:
-- Confirm domain remains pure Dart without Flutter or vendor imports.
-- Confirm features have no direct infrastructure or vendor SDK imports.
-- Confirm concrete dependencies are registered only in `apps/main_app`.
-- Confirm barrel files re-export only intentional public APIs.
-- Confirm all new/modified capabilities have corresponding tests that pass.
-
+---
+name: agentic-flutter-delivery-workflow
+description: Standard operating procedure for end-to-end task routing, implementation dependency order, and continuous validation.
+version: 1.0.0
+tags: [workflow, routing, dependency-order, validation]
 ---
 
 ## Skill: Agentic Flutter Delivery Workflow
 
 ### Route the Task
-1. Identify the smallest concrete anchor: a failing test, file, symbol, or user-visible behavior.
-2. Read the owning package barrel, its `pubspec.yaml`, and the nearest test or call site.
-3. State one local hypothesis about the behavior and one cheap check that could disprove it.
-4. Choose the smallest package and layer that owns the change.
-5. Trace cross-layer issues via `UI -> controller -> use case -> contract -> adapter -> mapper -> state -> UI`.
+1. Identify the smallest concrete anchor: a failing test, file, symbol, or requested user-visible behavior.
+2. Read the owning package barrel (`lib/<package>.dart`), its `pubspec.yaml`, and nearest test file.
+3. Formulate one local hypothesis and one cheap check (e.g. running a focused test or analyzer) to validate/disprove it.
+4. Trace cross-layer requests strictly along canonical flow:
+   `UI -> Feature Signals/Controller -> Domain Use Case -> Domain Contract -> Infrastructure Adapter -> DTO/Row Mapper -> Domain Result -> Feature State -> UI`
+5. Select the smallest package and layer that owns the change.
 
 ### Implement in Dependency Order
-1. Domain contract and entity.
-2. Infrastructure adapter and mapper.
-3. Feature orchestration and signal state.
-4. Presentation widgets.
-5. Composition root DI registration (`apps/main_app`).
-6. Package barrel re-exports.
+1. Domain contract and entity in `packages/domain` (or `<feature>_domain`).
+2. Infrastructure adapter and DTO mapper in `packages/infrastructure` (or `<feature>_data`).
+3. Feature orchestration and signal state in presentation layer.
+4. Focused rendering widgets.
+5. Register concrete dependencies in composition root (`apps/main_app`).
+6. Update package barrel files only for intentional public API.
 
-### Validate Continuously
-- Format changed Dart files (`dart format .`).
-- Analyze the workspace (`dart analyze`).
-- Run focused tests and workspace package tests (`flutter test`).
-- Ensure clean workspace resolution (`flutter pub get`).
-
+---
+name: solid-clean-architecture
+description: Enforces inward dependency flow, SOLID principles, and strict boundary shielding.
+version: 1.0.0
+tags: [architecture, solid, clean-architecture, boundaries]
 ---
 
 ## Skill: SOLID & Clean Architecture
@@ -89,16 +45,40 @@ Before declaring completion:
 `apps/main_app` -> `packages/features` -> `packages/domain`
 `apps/main_app` -> `packages/infrastructure` -> `packages/domain`
 
-- `packages/features` may depend on `packages/core_ui` and `packages/domain`.
-- `packages/domain` is pure Dart.
+- `packages/features` depends on `packages/core_ui` and `packages/domain`.
+- `packages/domain` is pure Dart with zero vendor or framework imports.
 
 ### SOLID Rules
-1. **Single Responsibility**: Separate presentation, orchestration, domain policy, and infrastructure IO.
-2. **Open/Closed**: Extend capabilities by adding new adapters behind existing domain interfaces.
-3. **Liskov Substitution**: Ensure adapters strictly conform to interface contracts without unexpected side effects.
-4. **Interface Segregation**: Keep capability interfaces focused and small (`IAuthService`, `IUserRepository`).
-5. **Dependency Inversion**: High-level modules depend on abstractions; concrete classes are injected at the composition root.
+1. **Single Responsibility**: Separate presentation, orchestration, domain policy, and infrastructure IO into dedicated layers.
+2. **Open/Closed**: Extend capabilities by introducing new adapters behind domain interfaces instead of mutating callers.
+3. **Liskov Substitution**: Adapters must strictly preserve error, nullability, and lifecycle contracts promised by domain interfaces.
+4. **Interface Segregation**: Prefer small capability interfaces (`IAuthService`, `IUserRepository`).
+5. **Dependency Inversion**: High-level code depends on domain abstractions; implementations are registered at composition root.
 
+---
+name: coding-standards-dry-public-apis
+description: Coding standards, package shape rules, DRY principles, and naming conventions.
+version: 1.0.0
+tags: [coding-standards, naming, dry, public-api]
+---
+
+## Skill: Coding Standards, DRY & Public APIs
+
+### Package Shape
+- Implementation lives under `lib/src/`.
+- Public API exposed through a single barrel file at `lib/<package_name>.dart`.
+- Re-export only domain contracts, entities, states, and events; hide DTOs, generated files, and vendor internals.
+
+### Naming & Design
+- Interfaces begin with `I` (e.g., `IAuthService`).
+- Implementations end with underlying technology name (e.g., `InMemoryAuthService`, `FirebaseAuthService`).
+- Use explicit, descriptive variable names.
+
+---
+name: dependency-governance-lego-ownership
+description: Single dependency ownership, shared wrapper rules, and dependency graph governance.
+version: 1.0.0
+tags: [dependencies, governance, lego-ownership, monorepo]
 ---
 
 ## Skill: Dependency Governance & LEGO Ownership
@@ -112,6 +92,49 @@ Before declaring completion:
 - Feature State: `bloc_signals_flutter` in feature presentation packages
 
 ### Enforcement Rules
-- No feature may import infrastructure or vendor SDKs.
-- No duplicate third-party dependencies across packages without explicit documentation.
-- Barrel files re-export capabilities and domain entities, never vendor classes.
+- No feature package may import infrastructure or vendor SDKs.
+- No duplicate third-party vendor dependencies across packages without explicit documentation.
+
+---
+name: flutter-testing-quality-gates
+description: Boundary testing discipline, quality gates, and definition of done for AI agents.
+version: 1.0.0
+tags: [testing, quality-gates, definition-of-done, unit-tests]
+---
+
+## Skill: Flutter Testing & Quality Gates
+
+### Test by Boundary
+- **Domain**: Pure unit tests for logic and entities without Flutter framework dependencies.
+- **Infrastructure**: Adapter tests verifying DTO mapping, error translation, and IO behavior with fakes.
+- **Features**: Signal state transitions and widget rendering tests with mocked domain contracts.
+- **Composition Root**: Startup smoke tests verifying dependency injection graph resolution.
+
+---
+name: monorepo-data-flow-feature-boundaries
+description: Canonical request paths, feature boundary isolation, and app shell routing responsibilities.
+version: 1.0.0
+tags: [data-flow, feature-boundaries, app-shell, routing]
+---
+
+## Skill: Modular Monorepo Data Flow & Feature Boundaries
+
+### Feature Isolation
+- Features must not import presentation or data packages of other features.
+- Cross-feature transitions must route through app shell callbacks or shared domain contracts.
+- App shell (`apps/main_app`) owns startup, flavor initialization, DI wiring, and top-level routing.
+
+---
+name: tech-stack-integration
+description: Approved tech stack guidelines for state management, persistence, networking, and DI.
+version: 1.0.0
+tags: [tech-stack, signals, drift, dio, kaisel]
+---
+
+## Skill: Tech Stack Integration
+
+### Stack Rules
+- **State Management**: `bloc_signals_flutter` for UI state.
+- **Dependency Injection**: `kaisel` at composition root (`apps/main_app`).
+- **Database**: `drift` contained inside `packages/infrastructure`.
+- **Networking**: `dio` contained inside `packages/infrastructure`.
