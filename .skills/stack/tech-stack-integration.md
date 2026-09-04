@@ -1,8 +1,8 @@
 ---
 name: tech-stack-integration
 description: Comprehensive breakdown of workspace third-party package roles, ownership boundaries, and usage guidelines.
-version: 2.5.0
-tags: [tech-stack, routing, kaisel, signals, drift, dio, firebase, linter]
+version: 3.0.0
+tags: [tech-stack, routing, kaisel, signals, drift, dio, firebase, linter, offline-first]
 ---
 
 # Skill: Tech Stack Integration
@@ -22,8 +22,8 @@ Use the repository-approved stack consistently according to pub.dev package capa
 ### Networking & Remote Data
 - **`dio`**: Centralized HTTP client owned by `packages/infrastructure` (or `packages/infrastructure/network`). Features access remote data only via domain interfaces implemented by Dio adapters.
 
-### Local Database & Persistence
-- **`drift`**, **`sqlite3`**, **`path_provider`**, **`path`**: Local relational database persistence and file system storage owned exclusively by `packages/infrastructure` (or `packages/infrastructure/persistence`).
+### Local Database & Persistence (Offline-First)
+- **`drift`**, **`sqlite3`**, **`path_provider`**, **`path`**: Local relational database persistence and file system storage owned exclusively by `packages/infrastructure` (or `packages/infrastructure/persistence`). Drift acts as the local source-of-truth for offline-first caching strategies.
 - **`drift_dev`**, **`build_runner`**: Dev dependencies for compiling Drift database tables and code generation.
 
 ### Identity & Firebase Integration

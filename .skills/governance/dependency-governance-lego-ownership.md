@@ -1,7 +1,7 @@
 ---
 name: dependency-governance-lego-ownership
 description: Dependency governance, single ownership rules, vendor isolation, and workspace graph management.
-version: 2.5.0
+version: 3.0.0
 tags: [dependencies, governance, lego-ownership, vendor-isolation, monorepo]
 ---
 
