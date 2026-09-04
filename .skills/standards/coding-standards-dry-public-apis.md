@@ -1,8 +1,8 @@
 ---
 name: coding-standards-dry-public-apis
-description: Coding standards, file structure conventions, DRY principles, naming guidelines, and public API management.
-version: 1.5.0
-tags: [coding-standards, naming, dry, public-api, package-shape]
+description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, and accessibility standards.
+version: 1.6.0
+tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, a11y]
 ---
 
 # Skill: Coding Standards, DRY & Public APIs
@@ -22,3 +22,10 @@ Apply these rules to every Dart package and app change in the workspace.
 - Variable names must be explicit and descriptive; avoid one-letter variables outside small local index loops.
 - Respect lint rules enforced by `kaisel_lint`.
 - Extract duplicated mapping or validation policy into a local helper or domain entity method rather than creating ad-hoc shared utility packages.
+
+## 3. Universal Accessibility (A11y) Standards
+
+1. **Screen Readers & Semantics**: Wrap interactive custom controls in `Semantics` widgets with meaningful `label`, `hint`, and `button` / `enabled` state properties. Merge child semantics using `MergeSemantics` where visual components form a single action.
+2. **Touch Targets**: Ensure interactive touch targets meet the minimum 48x48 dp size (`kMinInteractiveDimension`).
+3. **Color Contrast & Dynamic Scaling**: Conform to WCAG AA color contrast ratios (minimum 4.5:1 for standard text). Support dynamic text scaling without layout truncation.
+4. **Keyboard & Assistive Navigation**: Ensure all interactive widgets support focus traversal and keyboard navigation.
