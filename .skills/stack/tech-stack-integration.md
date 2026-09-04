@@ -1,7 +1,7 @@
 ---
 name: tech-stack-integration
 description: Comprehensive breakdown of workspace third-party package roles, ownership boundaries, and usage guidelines.
-version: 3.1.0
+version: 3.2.0
 tags: [tech-stack, routing, kaisel, signals, drift, dio, firebase, linter, offline-first]
 ---
 
