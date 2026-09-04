@@ -1,8 +1,8 @@
 ---
 name: coding-standards-dry-public-apis
-description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, and accessibility standards.
-version: 1.7.0
-tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, a11y]
+description: Coding standards, file structure conventions, DRY principles, naming guidelines, public API management, performance tear-offs, and accessibility standards.
+version: 1.8.0
+tags: [coding-standards, naming, dry, public-api, package-shape, accessibility, performance, tear-offs]
 ---
 
 # Skill: Coding Standards, DRY & Public APIs
@@ -23,7 +23,19 @@ Apply these rules to every Dart package and app change in the workspace.
 - Respect lint rules enforced by `kaisel_lint`.
 - Extract duplicated mapping or validation policy into a local helper or domain entity method rather than creating ad-hoc shared utility packages.
 
-## 3. Universal Accessibility (A11y) Standards
+## 3. Widget Performance & Callback Tear-offs
+
+Avoid unnecessary closure re-allocations during widget rebuilds. Pass stable tear-off method references instead of inline anonymous functions when arguments match:
+
+```dart
+// ❌ Re-allocated on every build:
+whatever: () => _handleTap(),
+
+// ✅ Stable reference, fully cached & allocation-free:
+whatever: _handleTap,
+```
+
+## 4. Universal Accessibility (A11y) Standards
 
 1. **Screen Readers & Semantics**: Wrap interactive custom controls in `Semantics` widgets with meaningful `label`, `hint`, and `button` / `enabled` state properties. Merge child semantics using `MergeSemantics` where visual components form a single action.
 2. **Touch Targets**: Ensure interactive touch targets meet the minimum 48x48 dp size (`kMinInteractiveDimension`).
