@@ -1,7 +1,7 @@
 ---
 name: monorepo-data-flow-feature-boundaries
 description: Monorepo canonical data flow, vertical feature package models, feature boundary isolation, and routing.
-version: 4.0.0
+version: 4.1.0
 tags: [data-flow, feature-boundaries, app-shell, routing, cross-feature, kaisel]
 ---
 
